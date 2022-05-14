@@ -1,4 +1,5 @@
 
+import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 
 class ContactsListScreen extends StatelessWidget {
@@ -13,9 +14,10 @@ class ContactsListScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text(
               'Welcome',
+              style: AppTextStyles.mainText(),
             ),
           ],
         ),
