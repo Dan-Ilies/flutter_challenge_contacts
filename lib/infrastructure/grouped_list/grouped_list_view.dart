@@ -24,6 +24,7 @@ class GroupedListView extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             title: Text(title),
             titlePadding: const EdgeInsets.all(16),
+            centerTitle: false,
           ),
         ),
         SliverList(

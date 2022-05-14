@@ -20,7 +20,7 @@ class ContactsListScreen extends StatelessWidget {
             if (state is ContactsListReceived) {
               return GroupedListView(
                 title: 'Contacts',
-                elements: addressBookList(state.contacts),
+                elements: addressBookList(context, state.contacts),
               );
             }
             return _welcome(context);
@@ -37,7 +37,7 @@ class ContactsListScreen extends StatelessWidget {
     );
   }
 
-  List<ListItem> addressBookList(List<Contact> contacts) {
+  List<ListItem> addressBookList(BuildContext context, List<Contact> contacts) {
     contacts.sort((first, second) {
       return first.name.toLowerCase().compareTo(second.name.toLowerCase());
     });
@@ -49,7 +49,12 @@ class ContactsListScreen extends StatelessWidget {
         items.add(AddressBookHeader(currentSectionLetter));
         sectionLetter = currentSectionLetter;
       }
-      items.add(AddressBookContact(contact.name));
+      items.add(
+        AddressBookContact(
+          contact.name,
+            () => { Navigator.pushNamed(context, Routes.contactDetails) },
+        ),
+      );
     }
     return items;
   }
