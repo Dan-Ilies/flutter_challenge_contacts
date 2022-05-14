@@ -12,14 +12,11 @@ class ContactsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contacts'),
-      ),
       body: Center(
         child: BlocBuilder<ContactsListBloc, ContactsListState>(
           builder: (context, state) {
             if (state is ContactsListReceived) {
-              return _contacts(state.contacts);
+              return _contactsCustom(state.contacts);
             }
             return _welcome(context);
           },
@@ -29,27 +26,36 @@ class ContactsListScreen extends StatelessWidget {
   }
 
   Widget _welcome(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          'Welcome',
-          style: AppTextStyles.mainText(),
+    return Text(
+      'Welcome',
+      style: AppTextStyles.mainText(),
+    );
+  }
+
+  Widget _contactsCustom(List<Contact> contacts) {
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          pinned: true,
+          expandedHeight: 120,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text('Contacts'),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return _row(context, contacts[index].name);
+          }, childCount: contacts.length),
         ),
       ],
     );
   }
 
-  Widget _contacts(List<Contact> contacts) {
-    return ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: contacts.length,
-      itemBuilder: (BuildContext context, int index) {
-        return MaterialButton(
-          child: Text(contacts[index].name),
-          onPressed: () => Navigator.pushNamed(context, Routes.contactDetails),
-        );
-      }
+  Widget _row(BuildContext context, String name) {
+    return MaterialButton(
+      child: Text(name),
+      onPressed: () => Navigator.pushNamed(context, Routes.contactDetails),
     );
   }
 

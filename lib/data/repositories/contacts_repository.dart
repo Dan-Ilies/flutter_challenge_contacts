@@ -22,6 +22,13 @@ class ContactsRepositoryImpl implements ContactsRepository {
     'Robert E. Kahn',
     'Ronald L. Rivest',
     'Vinton G. Cerf',
+    'LALA',
+    'Leslie Lamport',
+    'Ole-Johan Dahl',
+    'Peter Naur',
+    'Robert E. Kahn',
+    'Ronald L. Rivest',
+    'Vinton G. Cerf',
   ];
 
   @override
