@@ -20,11 +20,30 @@ class GroupedListView extends StatelessWidget {
         SliverAppBar(
           floating: true,
           pinned: true,
-          expandedHeight: 120,
+          expandedHeight: 100,
+          title: Text(title),
           flexibleSpace: FlexibleSpaceBar(
             title: Text(title),
             titlePadding: const EdgeInsets.all(16),
             centerTitle: false,
+          ),
+          bottom: AppBar(
+            title: Container(
+              width: double.infinity,
+              height: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: const Center(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search for something',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
         SliverList(
