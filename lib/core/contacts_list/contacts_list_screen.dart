@@ -1,12 +1,11 @@
 import 'package:challenge_about_you/core/contacts_list/bloc/contacts_list_bloc.dart';
+import 'package:challenge_about_you/data/models/contact.dart';
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_item.dart';
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_view.dart';
 import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../data/models/contact.dart';
 
 class ContactsListScreen extends StatelessWidget {
   const ContactsListScreen({Key? key}) : super(key: key);
@@ -52,7 +51,12 @@ class ContactsListScreen extends StatelessWidget {
       items.add(
         AddressBookContact(
           contact.name,
-            () => { Navigator.pushNamed(context, Routes.contactDetails) },
+            () => {
+            Navigator.pushNamed(
+              context,
+              Routes.contactDetails,
+              arguments: contact
+            )},
         ),
       );
     }

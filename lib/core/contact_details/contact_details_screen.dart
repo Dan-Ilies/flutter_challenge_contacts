@@ -1,22 +1,30 @@
 
+import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetailsScreen extends StatelessWidget {
-  const ContactDetailsScreen({Key? key}) : super(key: key);
+
+  final String _contactName;
+
+  const ContactDetailsScreen({Key? key, String contactName = "N/A"})
+      : _contactName = contactName,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: AppBar(
+        title: const Text('Contact Details'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Contact Details'),
-            const SizedBox(height: 30),
-            MaterialButton(
-              child: const Text("Back"),
-              onPressed: () => Navigator.pop(context),
-            )
+            Text(
+              _contactName,
+              style: AppTextStyles.mainHeader(),
+            ),
           ],
         ),
       ),
