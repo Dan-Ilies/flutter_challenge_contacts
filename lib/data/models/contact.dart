@@ -1,5 +1,7 @@
 
-class Contact {
+import 'package:equatable/equatable.dart';
+
+class Contact extends Equatable {
   final String name;
   //final String phoneNumber;
 
@@ -8,4 +10,7 @@ class Contact {
     //required this.phoneNumber
   });
 
+  @override
+  List<Object?> get props => [name];
+  
 }
