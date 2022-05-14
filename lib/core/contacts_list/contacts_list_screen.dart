@@ -1,4 +1,5 @@
 
+import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,10 @@ class ContactsListScreen extends StatelessWidget {
               'Welcome',
               style: AppTextStyles.mainText(),
             ),
+            MaterialButton(
+              child: const Text('See Details'),
+              onPressed: () => Navigator.pushNamed(context, Routes.contactDetails)
+            )
           ],
         ),
       ),

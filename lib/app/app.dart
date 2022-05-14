@@ -1,10 +1,16 @@
 
 import 'package:challenge_about_you/core/contacts_list/contacts_list_screen.dart';
+import 'package:challenge_about_you/navigation/app_router.dart';
+import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({Key? key, required AppRouter appRouter}) :
+        _appRouter = appRouter,
+        super(key: key);
+
+  final AppRouter _appRouter;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,8 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(color: AppColors.blueF4),
       ),
-      home: const ContactsListScreen(),
+      initialRoute: Routes.root,
+      onGenerateRoute: _appRouter.generateRoute,
     );
   }
 }
