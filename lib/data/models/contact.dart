@@ -12,5 +12,5 @@ class Contact extends Equatable {
 
   @override
   List<Object?> get props => [name];
-  
+
 }

@@ -7,9 +7,9 @@ abstract class ContactsRepository {
 }
 
 class ContactsRepositoryImpl implements ContactsRepository {
-  final Duration _futureDelay = const Duration(milliseconds: 500);
 
-  final List<Contact> _contacts = [
+  final Duration _futureDelay = const Duration(milliseconds: 1000);
+  final List<String> _names = [
     'Adi Shamir',
     'Alan Kay',
     'Andrew Yao',
@@ -22,12 +22,12 @@ class ContactsRepositoryImpl implements ContactsRepository {
     'Robert E. Kahn',
     'Ronald L. Rivest',
     'Vinton G. Cerf',
-  ].map((e) => Contact(name: e)).toList();
+  ];
 
   @override
   Future<List<Contact>> getContacts() async {
     await Future.delayed(_futureDelay);
-    return _contacts;
+    return _names.map((name) => Contact(name: name)).toList();
   }
 
 }
