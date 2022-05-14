@@ -1,4 +1,6 @@
 import 'package:challenge_about_you/core/contacts_list/bloc/contacts_list_bloc.dart';
+import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_item.dart';
+import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_view.dart';
 import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,10 @@ class ContactsListScreen extends StatelessWidget {
         child: BlocBuilder<ContactsListBloc, ContactsListState>(
           builder: (context, state) {
             if (state is ContactsListReceived) {
-              return _contactsCustom(state.contacts);
+              return GroupedListView(
+                title: 'Contacts',
+                elements: addressBookList(state.contacts),
+              );
             }
             return _welcome(context);
           },
@@ -32,31 +37,21 @@ class ContactsListScreen extends StatelessWidget {
     );
   }
 
-  Widget _contactsCustom(List<Contact> contacts) {
-    return CustomScrollView(
-      slivers: [
-        const SliverAppBar(
-          floating: true,
-          pinned: true,
-          expandedHeight: 120,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text('Contacts'),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return _row(context, contacts[index].name);
-          }, childCount: contacts.length),
-        ),
-      ],
-    );
-  }
-
-  Widget _row(BuildContext context, String name) {
-    return MaterialButton(
-      child: Text(name),
-      onPressed: () => Navigator.pushNamed(context, Routes.contactDetails),
-    );
+  List<ListItem> addressBookList(List<Contact> contacts) {
+    contacts.sort((first, second) {
+      return first.name.toLowerCase().compareTo(second.name.toLowerCase());
+    });
+    List<ListItem> items = [];
+    var sectionLetter = '';
+    for (var contact in contacts) {
+      final currentSectionLetter = contact.name[0].toUpperCase();
+      if (sectionLetter != currentSectionLetter) {
+        items.add(AddressBookHeader(currentSectionLetter));
+        sectionLetter = currentSectionLetter;
+      }
+      items.add(AddressBookContact(contact.name));
+    }
+    return items;
   }
 
 }
