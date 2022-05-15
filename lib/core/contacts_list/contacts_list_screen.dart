@@ -8,6 +8,7 @@ import 'package:challenge_about_you/theme/colors.dart';
 import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:challenge_about_you/infrastructure/extensions/string_extensions.dart';
 
 class ContactsListScreen extends StatelessWidget implements GroupedListDelegate {
   const ContactsListScreen({Key? key}) : super(key: key);
@@ -23,6 +24,9 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
             }
             if (state is ContactsListReceived) {
               return _groupedListView(context, state.contacts);
+            }
+            if (state is ContactsListError) {
+              return _errorMessage(context, state.message);
             }
             return _welcome(context);
           },
@@ -40,6 +44,32 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
 
   Widget _loadingIndicator() {
     return const CircularProgressIndicator();
+  }
+
+  Widget _errorMessage(BuildContext context, String message) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          message,
+          style: AppTextStyles.mainText(color: AppColors.grayA7),
+        ),
+        const SizedBox(height: 30),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: AppColors.violet3B,
+          ),
+          child: Text(
+            'Try Again',
+            style: AppTextStyles.mainText(color: Colors.white),
+          ),
+          onPressed: () {
+            BlocProvider.of<ContactsListBloc>(context)
+                .add(const ContactsListFetchContacts());
+          },
+        ),
+      ],
+    );
   }
 
   Widget _groupedListView(BuildContext context, List<Contact> contacts) {
@@ -77,7 +107,11 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
     List<ListItem> items = [];
     var sectionLetter = '';
     for (var contact in contacts) {
-      final currentSectionLetter = contact.name[0].toUpperCase();
+      String currentSectionLetter = contact.name[0].toUpperCase();
+      // Group together the names with special characters
+      if (currentSectionLetter.isSpecialCharacter()) {
+        currentSectionLetter = '*';
+      }
       if (sectionLetter != currentSectionLetter) {
         items.add(AddressBookHeader(currentSectionLetter));
         sectionLetter = currentSectionLetter;

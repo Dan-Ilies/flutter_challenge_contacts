@@ -1,5 +1,7 @@
 
+import 'package:challenge_about_you/data/api/contacts_api.dart';
 import 'package:challenge_about_you/data/models/contact.dart';
+import 'package:challenge_about_you/infrastructure/extensions/string_extensions.dart';
 
 abstract class ContactsRepository {
   Future<List<Contact>> fetchContacts();
@@ -8,15 +10,21 @@ abstract class ContactsRepository {
 
 class ContactsRepositoryImpl implements ContactsRepository {
 
-  static const Duration _futureDelay = Duration(milliseconds: 1000);
-
+  final ContactsAPI _contactsAPI;
   List<Contact> _contactsCache = [];
+
+  ContactsRepositoryImpl(this._contactsAPI);
 
   @override
   Future<List<Contact>> fetchContacts() async {
-    await Future.delayed(_futureDelay);
-    _contactsCache = _names.map((name) => Contact(name: name)).toList();
-    return _contactsCache;
+    try {
+      List<String> contactsResponse = await _contactsAPI.getContacts();
+      contactsResponse = contactsResponse.where((name) => !name.isBlank()).toList();
+      _contactsCache = contactsResponse.map((name) => Contact(name: name)).toList();
+      return _contactsCache;
+    } catch (e) {
+      throw Exception('Invalid Data');
+    }
   }
 
   @override
@@ -28,27 +36,5 @@ class ContactsRepositoryImpl implements ContactsRepository {
     return _contactsCache.where((contact) =>
         contact.name.toLowerCase().contains(queryLowercase)).toList();
   }
-
-  final List<String> _names = [
-    'Adi Shamir',
-    'Alan Kay',
-    'Andrew Yao',
-    'Barbara Liskov',
-    'Kristen Nygaard',
-    'Leonard Adleman',
-    'Leslie Lamport',
-    'Ole-Johan Dahl',
-    'Peter Naur',
-    'Robert E. Kahn',
-    'Ronald L. Rivest',
-    'Vinton G. Cerf',
-    'LALA',
-    'Leslie Lamport',
-    'Ole-Johan Dahl',
-    'Peter Naur',
-    'Robert E. Kahn',
-    'Ronald L. Rivest',
-    'Vinton G. Cerf',
-  ];
 
 }

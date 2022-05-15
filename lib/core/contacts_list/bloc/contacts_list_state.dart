@@ -21,3 +21,11 @@ class ContactsListReceived extends ContactsListState {
   @override
   List<Object?> get props => [contacts];
 }
+
+class ContactsListError extends ContactsListState {
+  final String message;
+  const ContactsListError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

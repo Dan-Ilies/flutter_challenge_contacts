@@ -16,8 +16,12 @@ class ContactsListBloc extends Bloc<ContactsListEvent, ContactsListState> {
 
     on<ContactsListFetchContacts>((event, emit) async {
       emit(ContactsListLoading());
-      List<Contact> contacts = await _contactsRepository.fetchContacts();
-      emit(ContactsListReceived(contacts));
+      try {
+        List<Contact> contacts = await _contactsRepository.fetchContacts();
+        emit(ContactsListReceived(contacts));
+      } catch (e) {
+        emit(ContactsListError(e.toString()));
+      }
     });
 
     on<ContactsListSearchContacts>((event, emit) async {

@@ -6,6 +6,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:challenge_about_you/app/app.dart';
+import 'package:challenge_about_you/data/api/contacts_api.dart';
+import 'package:challenge_about_you/data/repositories/contacts_repository.dart';
 import 'package:challenge_about_you/navigation/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(App(appRouter: AppRouter()));
+    final contactsAPI = ContactsAPIMock();
+    final contactsRepository = ContactsRepositoryImpl(contactsAPI);
+    final appRouter = AppRouter(contactsRepository: contactsRepository);
+    await tester.pumpWidget(App(appRouter: appRouter));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
