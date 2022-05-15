@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'app/app.dart';
 
 void main() {
-  final contactsAPI = ContactsAPIMock();
+  final contactsAPI = ContactsAPIImpl();
   final contactsRepository = ContactsRepositoryImpl(contactsAPI);
   final appRouter = AppRouter(contactsRepository: contactsRepository);
   final app = App(appRouter: appRouter);

@@ -5,7 +5,7 @@ abstract class ContactsAPI {
   Future<dynamic> getContacts();
 }
 
-class ContactsAPIMock extends ContactsAPI {
+class ContactsAPIImpl extends ContactsAPI {
 
   static const Duration _futureDelay = Duration(milliseconds: 1000);
   static const List<String> _names = [
@@ -33,6 +33,7 @@ class ContactsAPIMock extends ContactsAPI {
 
   @override
   Future<dynamic> getContacts() async {
+    // Simulate a network call by adding a delay
     await Future.delayed(_futureDelay);
     // Simulate a network error once in a while
     var showRandomError = Random().nextInt(10) == 1;

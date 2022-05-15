@@ -38,7 +38,7 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
   Widget _welcome(BuildContext context) {
     return Text(
       'Welcome',
-      style: AppTextStyles.mainText(),
+      style: AppTextStyles.mainHeader(),
     );
   }
 
