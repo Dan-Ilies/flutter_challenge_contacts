@@ -7,8 +7,18 @@ import 'package:challenge_about_you/theme/test_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ContactsListScreen extends StatelessWidget {
+abstract class SearchBarDelegate {
+  didSearch(BuildContext context, String query);
+}
+
+class ContactsListScreen extends StatelessWidget implements SearchBarDelegate {
   const ContactsListScreen({Key? key}) : super(key: key);
+
+  @override
+  didSearch(BuildContext context, String query) {
+    final bloc = BlocProvider.of<ContactsListBloc>(context);
+    bloc.add(ContactsListGetContacts(query));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,16 @@ class ContactsListScreen extends StatelessWidget {
             if (state is ContactsListReceived) {
               return GroupedListView(
                 title: 'Contacts',
-                elements: addressBookList(context, state.contacts),
+                items: addressBookList(context, state.contacts),
+                searchDelegate: this,
+                header: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'The header',
+                    style: AppTextStyles.mainText(fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               );
             }
             return _welcome(context);
@@ -50,13 +69,13 @@ class ContactsListScreen extends StatelessWidget {
       }
       items.add(
         AddressBookContact(
-          contact.name,
-            () => {
-            Navigator.pushNamed(
-              context,
-              Routes.contactDetails,
-              arguments: contact
-            )},
+          contact.name, () => {
+          Navigator.pushNamed(
+            context,
+            Routes.contactDetails,
+            arguments: contact,
+          ),
+        },
         ),
       );
     }

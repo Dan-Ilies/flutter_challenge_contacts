@@ -5,7 +5,8 @@ abstract class ContactsListEvent extends Equatable {
 }
 
 class ContactsListGetContacts extends ContactsListEvent {
-  const ContactsListGetContacts();
+  final String query;
+  const ContactsListGetContacts(this.query);
 
   @override
   List<Object?> get props => [];

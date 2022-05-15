@@ -19,7 +19,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => ContactsListBloc(_contactsRepository)..add(
-                const ContactsListGetContacts()
+                const ContactsListGetContacts('')
             ),
             child: const ContactsListScreen(),
           ),

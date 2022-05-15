@@ -15,7 +15,13 @@ class ContactsListBloc extends Bloc<ContactsListEvent, ContactsListState> {
   ContactsListBloc(this._contactsRepository) : super(ContactsListInitial()) {
 
     on<ContactsListGetContacts>((event, emit) async {
-      final contacts = await _contactsRepository.getContacts();
+      List<Contact> contacts = await _contactsRepository.getContacts();
+      if (event.query.isNotEmpty) {
+        var queryLowercase = event.query.toLowerCase();
+        contacts = contacts.where((element) =>
+            element.name.toLowerCase().contains(queryLowercase)
+        ).toList();
+      }
       emit(ContactsListReceived(contacts));
     });
 

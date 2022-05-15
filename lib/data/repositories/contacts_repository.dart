@@ -1,5 +1,4 @@
 
-
 import 'package:challenge_about_you/data/models/contact.dart';
 
 abstract class ContactsRepository {
