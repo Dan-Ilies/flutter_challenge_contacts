@@ -5,10 +5,10 @@ import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_ite
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_view.dart';
 import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/colors.dart';
-import 'package:challenge_about_you/theme/test_styles.dart';
+import 'package:challenge_about_you/theme/images.dart';
+import 'package:challenge_about_you/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:challenge_about_you/infrastructure/extensions/string_extensions.dart';
 
 class ContactsListScreen extends StatelessWidget implements GroupedListDelegate {
   const ContactsListScreen({Key? key}) : super(key: key);
@@ -77,25 +77,53 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
       title: 'Contacts',
       items: addressBookList(context, contactsMap),
       groupedListDelegate: this,
-      header: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'The header',
-          style: AppTextStyles.mainText(fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      footer: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'App Version: 1.0',
-          style: AppTextStyles.mainText(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: AppColors.grayA7,
+      header: _groupedListHeader(),
+      footer: _groupedListFooter(),
+    );
+  }
+
+  Widget _groupedListHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          ClipOval(
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(30), // Image radius
+              child: Image.asset(AppImages.avatar),
+            ),
           ),
-          textAlign: TextAlign.center,
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Dan - The Author',
+                style: AppTextStyles.mainText(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Mobile Developer',
+                style: AppTextStyles.mainText(fontSize: 14, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _groupedListFooter() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        'App Version: 1.0',
+        style: AppTextStyles.mainText(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: AppColors.grayA7,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

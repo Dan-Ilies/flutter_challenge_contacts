@@ -1,6 +1,6 @@
 
 import 'package:challenge_about_you/theme/colors.dart';
-import 'package:challenge_about_you/theme/test_styles.dart';
+import 'package:challenge_about_you/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
 // region Abstract Class to be inherited
