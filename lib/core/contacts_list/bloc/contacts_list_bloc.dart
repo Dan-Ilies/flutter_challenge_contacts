@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:challenge_about_you/data/models/contact.dart';
 import 'package:challenge_about_you/data/repositories/contacts_repository.dart';

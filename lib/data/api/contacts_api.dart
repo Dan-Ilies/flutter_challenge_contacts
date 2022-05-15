@@ -27,6 +27,7 @@ class ContactsAPIImpl extends ContactsAPI {
     'lowercase name',
     '@ / name',
     'X Æ A-12',
+    'Very long name that should not fit on a single line. This name should use at least 2 lines',
     '(#) special names',
     'Ashley not sorted',
   ];

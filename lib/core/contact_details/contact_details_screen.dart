@@ -18,20 +18,9 @@ class ContactDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _contactName,
-              style: AppTextStyles.mainHeader(),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'TBD',
-              style: AppTextStyles.mainText(fontSize: 18),
-            ),
-          ],
+        child: Text(
+          _contactName,
+          style: AppTextStyles.mainHeader(),
         ),
       ),
     );

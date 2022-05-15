@@ -1,15 +1,12 @@
 
-
 import 'package:flutter/material.dart';
 
 abstract class AppTextStyles {
 
   // region Custom Styles
-
   static TextStyle mainHeader() {
     return AppTextStyles.mainText(fontSize: 30, fontWeight: FontWeight.w700);
   }
-
   // endregion
 
   // region General Customizable Styles

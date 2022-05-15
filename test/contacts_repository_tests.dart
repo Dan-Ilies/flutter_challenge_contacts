@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   ContactsRepository? contactsRepository;
-  final List<String> contacts = ["Andy", "Mary", "Rhonda"];
+  const List<String> contacts = ['Andy', 'Mary', 'Rhonda'];
 
   setUp(() {
     var apiStub = ContactsAPIStub(contacts);
@@ -49,7 +49,6 @@ void main() {
 }
 
 // Mocks and Stubs
-
 class ContactsAPIStub implements ContactsAPI {
   List<String> contacts;
 

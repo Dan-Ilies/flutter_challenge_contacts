@@ -21,6 +21,7 @@ class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.root:
+      case Routes.contactsList:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => ContactsListBloc(_contactsRepository)..add(
@@ -29,11 +30,8 @@ class AppRouter {
             child: const ContactsListScreen(),
           ),
         );
-      case Routes.contactsList:
-        return MaterialPageRoute(builder: (_) => const ContactsListScreen());
       case Routes.contactDetails:
-        final contact = cast<Contact>(settings.arguments);
-        final contactName = contact?.name ?? '';
+        final contactName = cast<Contact>(settings.arguments)?.name ?? 'N/A';
         return MaterialPageRoute(builder: (_) =>
             ContactDetailsScreen(contactName: contactName));
       default:

@@ -1,5 +1,4 @@
 
-import 'package:challenge_about_you/core/contacts_list/contacts_list_screen.dart';
 import 'package:challenge_about_you/navigation/app_router.dart';
 import 'package:challenge_about_you/navigation/routes.dart';
 import 'package:challenge_about_you/theme/colors.dart';

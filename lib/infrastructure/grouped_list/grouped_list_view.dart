@@ -1,7 +1,6 @@
 
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_delegate.dart';
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_item.dart';
-import 'package:challenge_about_you/theme/colors.dart';
 import 'package:challenge_about_you/theme/images.dart';
 import 'package:challenge_about_you/theme/text_styles.dart';
 import 'package:flutter/material.dart';

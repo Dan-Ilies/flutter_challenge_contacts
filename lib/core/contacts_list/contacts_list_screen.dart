@@ -98,7 +98,7 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Dan - The Author',
+                'Dan Ilies',
                 style: AppTextStyles.mainText(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 12),
