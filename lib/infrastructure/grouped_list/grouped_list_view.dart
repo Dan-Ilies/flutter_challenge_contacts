@@ -6,7 +6,9 @@ import 'package:challenge_about_you/theme/images.dart';
 import 'package:challenge_about_you/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class GroupedListView extends StatelessWidget {
+// We need this as a StatefulWidget
+// just for displaying and hiding the header and footer
+class GroupedListView extends StatefulWidget {
 
   final String title;
   final List<ListItem> items;
@@ -24,21 +26,29 @@ class GroupedListView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<GroupedListView> createState() => _GroupedListViewState();
+}
+
+class _GroupedListViewState extends State<GroupedListView> {
+
+  bool _showHeaderFooter = true;
+
+  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: CustomScrollView(
         slivers: [
           _appBar(context),
-          _sliverToBoxAdapter(header),
-          if (items.isEmpty)
+          _sliverToBoxAdapter(widget.header),
+          if (widget.items.isEmpty)
             _emptyListPlaceholder()
           else
             _listItems(context),
-          _sliverToBoxAdapter(footer),
+          _sliverToBoxAdapter(widget.footer),
         ],
       ),
       onRefresh: () async {
-        groupedListDelegate.didRefresh(context);
+        widget.groupedListDelegate.didRefresh(context);
       },
     );
   }
@@ -48,7 +58,7 @@ class GroupedListView extends StatelessWidget {
       floating: true,
       pinned: true,
       expandedHeight: 100,
-      title: Text(title),
+      title: Text(widget.title),
       bottom: AppBar(
         title: Container(
           width: double.infinity,
@@ -65,8 +75,9 @@ class GroupedListView extends StatelessWidget {
                 hintText: 'Search ...',
                 prefixIcon: Icon(Icons.search),
               ),
-              onChanged: (text) => {
-                groupedListDelegate.didSearch(context, text)
+              onChanged: (text) {
+                _showHeaderFooter = text.isEmpty;
+                widget.groupedListDelegate.didSearch(context, text);
               },
             ),
           ),
@@ -78,8 +89,8 @@ class GroupedListView extends StatelessWidget {
   Widget _listItems(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, index) {
-        return items[index].build(context);
-      }, childCount: items.length),
+        return widget.items[index].build(context);
+      }, childCount: widget.items.length),
     );
   }
 
@@ -89,6 +100,7 @@ class GroupedListView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 30),
           Image.asset(AppImages.searchEmpty),
           const SizedBox(height: 12),
           Text(
@@ -101,9 +113,12 @@ class GroupedListView extends StatelessWidget {
   }
 
   Widget _sliverToBoxAdapter(Widget? widget) {
-    return SliverToBoxAdapter(
-      child: widget ?? const SizedBox.shrink(),
-    );
+    Widget widgetToDisplay;
+    if (_showHeaderFooter && widget != null) {
+      widgetToDisplay = widget;
+    } else {
+      widgetToDisplay = const SizedBox.shrink();
+    }
+    return SliverToBoxAdapter(child: widgetToDisplay);
   }
-
 }
