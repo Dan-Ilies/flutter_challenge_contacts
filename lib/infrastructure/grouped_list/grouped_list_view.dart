@@ -1,6 +1,9 @@
 
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_delegate.dart';
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_item.dart';
+import 'package:challenge_about_you/theme/colors.dart';
+import 'package:challenge_about_you/theme/images.dart';
+import 'package:challenge_about_you/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class GroupedListView extends StatelessWidget {
@@ -27,7 +30,10 @@ class GroupedListView extends StatelessWidget {
         slivers: [
           _appBar(context),
           _sliverToBoxAdapter(header),
-          _listItems(context),
+          if (items.isEmpty)
+            _emptyListPlaceholder()
+          else
+            _listItems(context),
           _sliverToBoxAdapter(footer),
         ],
       ),
@@ -74,6 +80,23 @@ class GroupedListView extends StatelessWidget {
       delegate: SliverChildBuilderDelegate((context, index) {
         return items[index].build(context);
       }, childCount: items.length),
+    );
+  }
+
+  Widget _emptyListPlaceholder() {
+    return SliverToBoxAdapter(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(AppImages.searchEmpty),
+          const SizedBox(height: 12),
+          Text(
+            'No results',
+            style: AppTextStyles.mainText(fontSize: 20),
+          ),
+        ],
+      ),
     );
   }
 
