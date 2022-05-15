@@ -1,5 +1,5 @@
 
-import 'package:challenge_about_you/core/contacts_list/contacts_list_screen.dart';
+import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_delegate.dart';
 import 'package:challenge_about_you/infrastructure/grouped_list/grouped_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -7,31 +7,33 @@ class GroupedListView extends StatelessWidget {
 
   final String title;
   final List<ListItem> items;
-  final SearchBarDelegate searchDelegate;
+  final GroupedListDelegate groupedListDelegate;
   final Widget? header;
   final Widget? footer;
 
   const GroupedListView({
+    Key? key,
     required this.title,
     required this.items,
-    required this.searchDelegate,
+    required this.groupedListDelegate,
     this.header,
     this.footer,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        _appBar(context),
-        _sliverToBoxAdapter(header),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return items[index].build(context);
-          }, childCount: items.length),
-        ),
-        _sliverToBoxAdapter(footer),
-      ],
+    return RefreshIndicator(
+      child: CustomScrollView(
+        slivers: [
+          _appBar(context),
+          _sliverToBoxAdapter(header),
+          _listItems(context),
+          _sliverToBoxAdapter(footer),
+        ],
+      ),
+      onRefresh: () async {
+        groupedListDelegate.didRefresh(context);
+      },
     );
   }
 
@@ -51,18 +53,27 @@ class GroupedListView extends StatelessWidget {
           ),
           child: Center(
             child: TextField(
+              autocorrect: false,
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search ...',
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (text) => {
-                searchDelegate.didSearch(context, text)
+                groupedListDelegate.didSearch(context, text)
               },
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _listItems(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return items[index].build(context);
+      }, childCount: items.length),
     );
   }
 

@@ -2,12 +2,33 @@
 import 'package:challenge_about_you/data/models/contact.dart';
 
 abstract class ContactsRepository {
-  Future<List<Contact>> getContacts();
+  Future<List<Contact>> fetchContacts();
+  Future<List<Contact>> searchContacts(String query);
 }
 
 class ContactsRepositoryImpl implements ContactsRepository {
 
-  final Duration _futureDelay = const Duration(milliseconds: 1000);
+  static const Duration _futureDelay = Duration(milliseconds: 1000);
+
+  List<Contact> _contactsCache = [];
+
+  @override
+  Future<List<Contact>> fetchContacts() async {
+    await Future.delayed(_futureDelay);
+    _contactsCache = _names.map((name) => Contact(name: name)).toList();
+    return _contactsCache;
+  }
+
+  @override
+  Future<List<Contact>> searchContacts(String query) async {
+    if (_contactsCache.isEmpty) {
+      await fetchContacts();
+    }
+    final queryLowercase = query.toLowerCase();
+    return _contactsCache.where((contact) =>
+        contact.name.toLowerCase().contains(queryLowercase)).toList();
+  }
+
   final List<String> _names = [
     'Adi Shamir',
     'Alan Kay',
@@ -29,11 +50,5 @@ class ContactsRepositoryImpl implements ContactsRepository {
     'Ronald L. Rivest',
     'Vinton G. Cerf',
   ];
-
-  @override
-  Future<List<Contact>> getContacts() async {
-    await Future.delayed(_futureDelay);
-    return _names.map((name) => Contact(name: name)).toList();
-  }
 
 }

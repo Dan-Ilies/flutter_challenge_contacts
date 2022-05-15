@@ -9,6 +9,11 @@ class ContactsListInitial extends ContactsListState {
   List<Object> get props => [];
 }
 
+class ContactsListLoading extends ContactsListState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ContactsListReceived extends ContactsListState {
   final List<Contact> contacts;
   const ContactsListReceived(this.contacts);

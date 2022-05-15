@@ -18,7 +18,7 @@ class App extends StatelessWidget {
       title: 'Challenge About You',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
         appBarTheme: const AppBarTheme(color: AppColors.violet3B),
       ),
       initialRoute: Routes.root,
