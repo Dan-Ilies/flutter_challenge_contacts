@@ -14,12 +14,12 @@ class ContactsListLoading extends ContactsListState {
   List<Object?> get props => [];
 }
 
-class ContactsListReceived extends ContactsListState {
-  final List<Contact> contacts;
-  const ContactsListReceived(this.contacts);
+class ContactsListReceivedData extends ContactsListState {
+  final Map<String, List<Contact>> contactsMap;
+  const ContactsListReceivedData(this.contactsMap);
 
   @override
-  List<Object?> get props => [contacts];
+  List<Object?> get props => [contactsMap];
 }
 
 class ContactsListError extends ContactsListState {

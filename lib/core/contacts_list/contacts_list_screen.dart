@@ -22,8 +22,8 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
             if (state is ContactsListLoading) {
               return _loadingIndicator();
             }
-            if (state is ContactsListReceived) {
-              return _groupedListView(context, state.contacts);
+            if (state is ContactsListReceivedData) {
+              return _groupedListView(context, state.contactsMap);
             }
             if (state is ContactsListError) {
               return _errorMessage(context, state.message);
@@ -72,10 +72,10 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
     );
   }
 
-  Widget _groupedListView(BuildContext context, List<Contact> contacts) {
+  Widget _groupedListView(BuildContext context, Map<String, List<Contact>> contactsMap) {
     return GroupedListView(
       title: 'Contacts',
-      items: addressBookList(context, contacts),
+      items: addressBookList(context, contactsMap),
       groupedListDelegate: this,
       header: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -100,34 +100,21 @@ class ContactsListScreen extends StatelessWidget implements GroupedListDelegate 
     );
   }
 
-  List<ListItem> addressBookList(BuildContext context, List<Contact> contacts) {
-    contacts.sort((first, second) {
-      return first.name.toLowerCase().compareTo(second.name.toLowerCase());
-    });
+  List<ListItem> addressBookList(BuildContext context, Map<String, List<Contact>> contactsMap) {
     List<ListItem> items = [];
-    var sectionLetter = '';
-    for (var contact in contacts) {
-      String currentSectionLetter = contact.name[0].toUpperCase();
-      // Group together the names with special characters
-      if (currentSectionLetter.isSpecialCharacter()) {
-        currentSectionLetter = '*';
-      }
-      if (sectionLetter != currentSectionLetter) {
-        items.add(AddressBookHeader(currentSectionLetter));
-        sectionLetter = currentSectionLetter;
-      }
-      items.add(
-        AddressBookContact(
-          contact.name, () => {
-          Navigator.pushNamed(
-            context,
-            Routes.contactDetails,
-            arguments: contact,
+    contactsMap.forEach((section, contacts) {
+      items.add(AddressBookHeader(section));
+      items.addAll(contacts.map((contact) =>
+          AddressBookContact(contact.name, () => {
+            Navigator.pushNamed(
+              context,
+              Routes.contactDetails,
+              arguments: contact,
+            ),
+          },
           ),
-        },
-        ),
-      );
-    }
+      ));
+    });
     return items;
   }
 
