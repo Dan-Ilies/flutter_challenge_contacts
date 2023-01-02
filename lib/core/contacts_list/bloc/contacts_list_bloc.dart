@@ -25,8 +25,7 @@ class ContactsListBloc extends Bloc<ContactsListEvent, ContactsListState> {
     });
 
     on<ContactsListSearchContacts>((event, emit) async {
-      List<Contact> contacts = await _contactsRepository
-          .searchContacts(event.query);
+      List<Contact> contacts = await _contactsRepository.searchContacts(event.query);
       emit(ContactsListReceivedData(_groupContacts(contacts)));
     });
 
